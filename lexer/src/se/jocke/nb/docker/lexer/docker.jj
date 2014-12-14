@@ -1,0 +1,102 @@
+options {
+  JAVA_UNICODE_ESCAPE = true;
+  ERROR_REPORTING = false;
+  STATIC = false;
+  COMMON_TOKEN_ACTION = false;
+  JDK_VERSION = "1.5";
+}
+
+PARSER_BEGIN(DockerParser)
+
+package se.jocke.nb.docker.lexer;
+
+import java.io.*;
+
+public class DockerParser {}
+
+PARSER_END(DockerParser)
+
+/* WHITE SPACE */
+
+SPECIAL_TOKEN : {
+   < SINGLE_LINE_COMMENT: "#"(~["\n","\r"])* ("\n"|"\r"|"\r\n")? > 
+}
+
+TOKEN :
+{
+  < SEP: " ">
+}
+
+TOKEN :
+{
+  < LN: "\n">
+}
+
+TOKEN :
+{
+  < WHITESPACE:
+  " "
+| "\t"
+| "\n"
+| "\r"
+| "\f">
+}
+
+
+/* RESERVED WORDS AND LITERALS */
+
+TOKEN :
+{
+  < FROM: "FROM" >
+| < MAINTAINER: "MAINTAINER" >
+| < RUN: "RUN" >
+| < CMD: "CMD" >
+| < EXPOSE: "EXPOSE" >
+| < ENV: "ENV" >
+| < ADD: "ADD" >
+| < COPY: "COPY" >
+| < ENTRYPOINT: "ENTRYPOINT" >
+| < VOLUME: "VOLUME" >
+| < USER: "USER" >
+| < WORKDIR: "WORKDIR" >
+| < ONBUILD: "ONBUILD" >
+}
+
+TOKEN : 
+{
+<STRING : (["A"-"Z", "a"-"z", "0"-"9", "'", "$", "&", "+", ":", ";", "=", "!", "?", "@", "[", "]", "(", ")", "{", "}", "^", "*", ">", "<", "%", "-", "_", "|",  "\"", "/", "\\", ".", "," , "¸", "±", "½"])+ >
+}
+
+void CompilationUnit():
+{}
+{
+   expression()
+}
+
+void expression() :
+{
+}
+{           
+(stmt()sep()string()<LN>)* <EOF>  
+}
+
+void stmt() :
+{
+}
+{           
+ (<FROM> | <MAINTAINER> | <RUN> | <CMD> | <EXPOSE> | <ENV> | <ADD> | <COPY> | <ENTRYPOINT> |  <VOLUME> | <USER>  | <WORKDIR> | <ONBUILD>)
+}
+
+void string() :
+{
+}
+{           
+  <STRING>
+}
+
+void sep() :
+{
+}
+{           
+  <SEP>
+}
