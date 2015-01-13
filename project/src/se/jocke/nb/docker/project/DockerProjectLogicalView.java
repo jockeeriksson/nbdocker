@@ -72,6 +72,7 @@ public class DockerProjectLogicalView implements LogicalViewProvider {
                 CommonProjectActions.newFileAction(),
                 CommonProjectActions.copyProjectAction(),
                 CommonProjectActions.deleteProjectAction(),
+                CommonProjectActions.customizeProjectAction(),
                 CommonProjectActions.closeProjectAction()
             };
         }
