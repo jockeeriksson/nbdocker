@@ -4,8 +4,11 @@ import java.awt.Image;
 import javax.swing.Action;
 import org.netbeans.api.annotations.common.StaticResource;
 import org.netbeans.api.project.Project;
+import org.netbeans.spi.project.ActionProvider;
 import org.netbeans.spi.project.ui.LogicalViewProvider;
 import org.netbeans.spi.project.ui.support.CommonProjectActions;
+import org.netbeans.spi.project.ui.support.ProjectActionPerformer;
+import org.netbeans.spi.project.ui.support.ProjectSensitiveActions;
 import org.openide.filesystems.FileObject;
 import org.openide.loaders.DataFolder;
 import org.openide.loaders.DataObjectNotFoundException;
@@ -18,6 +21,8 @@ import org.openide.util.ImageUtilities;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
 import org.openide.util.lookup.ProxyLookup;
+import se.jocke.nb.docker.project.actions.BuildProjectActionPerformer;
+import se.jocke.nb.docker.project.actions.RunProjectActionPerformer;
 
 /**
  *
@@ -73,7 +78,9 @@ public class DockerProjectLogicalView implements LogicalViewProvider {
                 CommonProjectActions.copyProjectAction(),
                 CommonProjectActions.deleteProjectAction(),
                 CommonProjectActions.customizeProjectAction(),
-                CommonProjectActions.closeProjectAction()
+                CommonProjectActions.closeProjectAction(),
+                ProjectSensitiveActions.projectSensitiveAction(new RunProjectActionPerformer() , ActionProvider.COMMAND_RUN, null),
+                ProjectSensitiveActions.projectSensitiveAction(new BuildProjectActionPerformer() , ActionProvider.COMMAND_BUILD, null)
             };
         }
 

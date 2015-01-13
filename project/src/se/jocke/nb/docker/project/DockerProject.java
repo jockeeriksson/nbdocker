@@ -5,6 +5,7 @@ import org.netbeans.spi.project.ProjectState;
 import org.openide.filesystems.FileObject;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.Lookups;
+import se.jocke.nb.docker.project.actions.DockerActionProvider;
 
 /**
  *
@@ -33,7 +34,8 @@ public class DockerProject implements Project {
             lkp = Lookups.fixed(new Object[]{
                 new DockerInfo(this),
                 new DockerProjectLogicalView(this),
-                new DockerCustomizerProvider(this)
+                new DockerCustomizerProvider(this),
+                new DockerActionProvider()
             });
         }
 
